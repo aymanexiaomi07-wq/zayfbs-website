@@ -19,3 +19,32 @@ function getCart() {
   const stored = localStorage.getItem('zayfbs_cart');
   return stored ? JSON.parse(stored) : [];
 }
+
+function saveCart(cart) {
+  localStorage.setItem('zayfbs_cart', JSON.stringify(cart));
+}
+
+function getNextId() {
+  const n = parseInt(localStorage.getItem('zayfbs_nextid') || '6');
+  localStorage.setItem('zayfbs_nextid', n + 1);
+  return n;
+}
+
+// ===== CART BADGE =====
+function updateCartBadge() {
+  const cart = getCart();
+  const total = cart.reduce((s, c) => s + c.qty, 0);
+  const badge = document.getElementById('cartBadge');
+  if (badge) badge.textContent = total;
+}
+
+// ===== CART MODAL =====
+function openCart() {
+  renderCart();
+  document.getElementById('cartOverlay').classList.add('open');
+}
+
+function closeCart() {
+  document.getElementById('cartOverlay').classList.remove('open');
+}
+
