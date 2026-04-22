@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zayfbs — Produits</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">Zayfbs</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="produit.html" class="active">Product</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-cart" onclick="openCart()">
+    panier <span class="cart-badge" id="cartBadge">0</span>
+  </button>
+</nav>
+
+<!-- PRODUCTS PAGE -->
+<div class="products-page">
+  <div class="page-header">
+    <h2 class="page-title">les produits</h2>
+    <button class="btn-add" onclick="openProductModal()">+ Ajouter</button>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+</div>
+
+<div class="footer-bar">zit olive oil</div>
+
+<!-- CART MODAL -->
+<div class="modal-overlay" id="cartOverlay">
+  <div class="cart-modal">
+    <div class="cart-header">
+      <h2>Panier</h2>
+      <button class="btn-annuler" onclick="closeCart()">annuler</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty">Votre panier est vide.</div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total :</span>
+        <span id="cartTotal">0 dh</span>
+      </div>
+      <button class="btn-commander" onclick="commander()">COMMANDER</button>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT ADD/EDIT MODAL -->
+<div class="modal-overlay" id="productModalOverlay">
+  <div class="product-modal">
+    <div class="product-modal-header">
+      <h2 id="productModalTitle">Ajouter un produit</h2>
+      <button class="btn-close" onclick="closeProductModal()">✕</button>
+    </div>
+    <div class="product-modal-body">
+      <div class="form-group">
+        <label>Nom du produit *</label>
+        <input type="text" id="pName" placeholder="ex: olive oil premium" />
+      </div>
+      <div class="form-group">
+        <label>Prix (DH) *</label>
+        <input type="number" id="pPrice" placeholder="80" min="1" />
+      </div>
+      <div class="form-group">
+        <label>URL de l'image</label>
+        <input type="text" id="pImage" placeholder="https://... (laisser vide pour défaut)" />
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel-modal" onclick="closeProductModal()">Annuler</button>
+      <button class="btn-save" onclick="saveProduct()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DELETE MODAL -->
+<div class="modal-overlay" id="confirmOverlay">
+  <div class="confirm-modal">
+    <h3>Supprimer le produit ?</h3>
+    <p>Cette action est irréversible. Êtes-vous sûr de vouloir supprimer ce produit ?</p>
+    <div class="confirm-btns">
+      <button class="btn-cancel-modal" onclick="closeConfirm()">Annuler</button>
+      <button class="btn-delete-confirm" onclick="confirmDelete()">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+<script>
+  // Render products on this page
+  function renderProducts() {
+    const products = getProducts();
+    const grid = document.getElementById('productsGrid');
+    grid.innerHTML = '';
+    products.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <img src="${p.image}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&h=300&fit=crop'" />
+        <div class="product-info">
+          <div class="product-row">
+            <span class="product-name">${p.name}</span>
+            <span class="product-price">${p.price}DH</span>
+          </div>
+          <div class="product-actions">
+            <button class="btn-sm btn-ajoute" onclick="addToCart(${p.id})">ajoute</button>
+            <button class="btn-sm btn-modifier" onclick="openProductModal(${p.id})">modifier</button>
+            <button class="btn-sm btn-supprime" onclick="openConfirm(${p.id})">supprime</button>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  // Run on page load
+  document.addEventListener('DOMContentLoaded', renderProducts);
+</script>
+</body>
+</html>

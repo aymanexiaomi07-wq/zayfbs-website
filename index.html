@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zayfbs — Accueil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">Zayfbs</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Accueil</a></li>
+    <li><a href="produit.html">Product</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-cart" onclick="openCart()">
+    panier <span class="cart-badge" id="cartBadge">0</span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-img-stack">
+      <img src="img/hero.jpg" alt="Olives" />
+    </div>
+    <div class="hero-text">
+=
+      <h1 class="hero-title">L'Or Vert de<br><span>nos Fermes</span></h1>
+      <p class="hero-desc">Huile d'olive extra vierge pressée à froid, issue des oliveraies ancestrales de la région de Fquih Ben Salah — authenticité, qualité et savoir-faire marocain.</p>
+      <a class="btn-primary" href="produit.html">Découvrir nos produits →</a>
+    </div>
+  </div>
+</section>
+
+<!-- NOS FERMES -->
+<p class="section-label">NOS FERMES</p>
+
+<div class="cert-card">
+  <div>
+  <img class="cert-img" src="img/1.jpg" alt="Lesieur Cristal" />
+  </div>
+  <div class="cert-body">
+    <h2 class="cert-title"> Al Horra</h2>
+    <p class="cert-desc">Al Horra est une marque spécialisée dans l’huile d’olive marocaine. Elle propose une huile naturelle issue de l’agriculture locale, avec un goût authentique et traditionnel. Elle est appréciée pour sa qualité et son origine locale.</p>
+  </div>
+</div>
+
+<div class="certs-grid">
+  <div class="cert-body">
+    <h2 class="cert-title">Carapelli</h2>
+    <p class="cert-desc">Carapelli est une marque italienne reconnue à l’échelle internationale. Elle offre des huiles d’olive extra vierges de haute qualité, avec une attention particulière au goût et au savoir-faire méditerranéen.</p>
+  </div>
+  <img class="cert-img" src="img/2.jpg" alt="Carapelli" />
+</div>
+
+<div class="cert-card">
+  <div>
+  <img class="cert-img" src="img/3.jpg" alt="Lesieur Cristal" />
+  </div>
+  <div class="cert-body">
+    <h2 class="cert-title"> Lesieur Cristal</h2>
+    <p class="cert-desc">Lesieur Cristal est une entreprise marocaine spécialisée dans les huiles alimentaires, reconnue pour la qualité de ses produits et sa forte présence sur le marché.</p>
+  </div>
+</div>
+
+<!-- NOS CERTIFICATIONS -->
+<p class="section-label">NOS CERTIFICATIONS</p>
+
+<div class="certs-grid">
+  <div class="cert-body">
+    <h2 class="cert-title">Carapelli</h2>
+    <p class="cert-desc">Carapelli est une marque italienne reconnue à l'échelle internationale. Elle offre des huiles d'olive extra vierges de haute qualité, avec une attention particulière au goût et au savoir-faire méditerranéen, ainsi qu’à la sélection rigoureuse des olives et aux méthodes traditionnelles de production.</p>
+  </div>
+  <img class="cert-img" src="img/4.jpg" alt="Carapelli" />
+</div>
+
+<div class="cert-card">
+  <div>
+  <img class="cert-img" src="https://images.unsplash.com/photo-1543362906-acfc16c67564?w=600&h=400&fit=crop" alt="Lesieur Cristal" />
+  </div>
+  <div class="cert-body">
+    <h2 class="cert-title">Lesieur Cristal</h2>
+    <p class="cert-desc">Lesieur Cristal est une entreprise marocaine très connue dans le domaine des huiles alimentaires. Elle produit plusieurs types d'huiles, y compris l'huile d'olive. Elle se distingue par la qualité contrôlée de ses produits et sa forte présence sur le marché marocain.</p>
+  </div>
+</div>
+
+
+
+<div class="footer-bar">zit olive oil</div>
+
+<!-- CART MODAL -->
+<div class="modal-overlay" id="cartOverlay">
+  <div class="cart-modal">
+    <div class="cart-header">
+      <h2>Panier</h2>
+      <button class="btn-annuler" onclick="closeCart()">annuler</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty">Votre panier est vide.</div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total :</span>
+        <span id="cartTotal">0 dh</span>
+      </div>
+      <button class="btn-commander" onclick="commander()">COMMANDER</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
