@@ -339,10 +339,11 @@ background-color: white;
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(4, minmax(200px, 1fr));
   gap: 20px;
   margin-top: 10px;
 }
+
 
 .product-card {
   background: white;
@@ -354,15 +355,17 @@ background-color: white;
 
 .product-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
 
-.product-card img {
+.product-card .{
   width: 100%;
-  height: 160px;
+  height: 220px;
   object-fit: cover;
 }
 
 .product-info {
   background: #d8e6c8;
   padding: 10px 12px 12px;
+
+  height: 60px
 }
 
 .product-row {
