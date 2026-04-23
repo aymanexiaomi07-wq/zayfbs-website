@@ -48,8 +48,6 @@ function closeCart() {
   document.getElementById('cartOverlay').classList.remove('open');
 }
 
-
-
 function renderCart() {
   const cart = getCart();
   const container = document.getElementById('cartItems');
@@ -87,7 +85,7 @@ function changeQty(id, delta) {
   updateCartBadge();
   renderCart();
 }
-  
+
 function addToCart(id) {
   const products = getProducts();
   const p = products.find(x => x.id === id);
@@ -101,7 +99,7 @@ function addToCart(id) {
   }
   saveCart(cart);
   updateCartBadge();
-showToast(`${p.name} ajouté au panier 🛒`, 'green');
+  showToast(`"${p.name}" ajouté au panier 🛒`, 'green');
 }
 
 function commander() {
@@ -118,3 +116,112 @@ function commander() {
 
 // ===== PRODUCT MODAL (Add/Edit) =====
 let editingId = null;
+
+function openProductModal(id = null) {
+  editingId = id;
+  const overlay = document.getElementById('productModalOverlay');
+  if (!overlay) return;
+  const title = document.getElementById('productModalTitle');
+  if (id) {
+    const products = getProducts();
+    const p = products.find(x => x.id === id);
+    title.textContent = 'Modifier le produit';
+    document.getElementById('pName').value = p.name;
+    document.getElementById('pPrice').value = p.price;
+    document.getElementById('pImage').value = p.image;
+  } else {
+    title.textContent = 'Ajouter un produit';
+    document.getElementById('pName').value = '';
+    document.getElementById('pPrice').value = '';
+    document.getElementById('pImage').value = '';
+  }
+  overlay.classList.add('open');
+}
+
+function closeProductModal() {
+  const overlay = document.getElementById('productModalOverlay');
+  if (overlay) overlay.classList.remove('open');
+  editingId = null;
+}
+
+function saveProduct() {
+  const name = document.getElementById('pName').value.trim();
+  const price = parseInt(document.getElementById('pPrice').value);
+  const image = document.getElementById('pImage').value.trim() ||
+    'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&h=300&fit=crop';
+
+  if (!name || !price || price <= 0) {
+    showToast('Veuillez remplir tous les champs.', 'red');
+    return;
+  }
+
+  let products = getProducts();
+  if (editingId) {
+    const idx = products.findIndex(x => x.id === editingId);
+    products[idx] = { ...products[idx], name, price, image };
+    showToast('Produit modifié ✓', 'green');
+  } else {
+    products.push({ id: getNextId(), name, price, image });
+    showToast('Produit ajouté ✓', 'green');
+  }
+  saveProducts(products);
+  closeProductModal();
+  if (typeof renderProducts === 'function') renderProducts();
+}
+
+// ===== CONFIRM DELETE =====
+let deletingId = null;
+
+function openConfirm(id) {
+  deletingId = id;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+
+function closeConfirm() {
+  document.getElementById('confirmOverlay').classList.remove('open');
+  deletingId = null;
+}
+
+function confirmDelete() {
+  let products = getProducts();
+  products = products.filter(p => p.id !== deletingId);
+  saveProducts(products);
+  let cart = getCart();
+  cart = cart.filter(c => c.id !== deletingId);
+  saveCart(cart);
+  closeConfirm();
+  updateCartBadge();
+  showToast('Produit supprimé.', 'red');
+  if (typeof renderProducts === 'function') renderProducts();
+}
+
+// ===== CONTACT =====
+function submitContact(e) {
+  e.preventDefault();
+  const name = document.getElementById('contactName').value.trim();
+  showToast(`Message envoyé, merci ${name} !`, 'green');
+  e.target.reset();
+}
+
+// ===== TOAST =====
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' ' + type : '');
+  setTimeout(() => t.className = 'toast', 3000);
+}
+
+// ===== CLOSE MODALS ON OVERLAY CLICK =====
+document.addEventListener('DOMContentLoaded', function () {
+  updateCartBadge();
+
+  const cartOverlay = document.getElementById('cartOverlay');
+  if (cartOverlay) cartOverlay.addEventListener('click', e => { if (e.target === cartOverlay) closeCart(); });
+
+  const productModalOverlay = document.getElementById('productModalOverlay');
+  if (productModalOverlay) productModalOverlay.addEventListener('click', e => { if (e.target === productModalOverlay) closeProductModal(); });
+
+  const confirmOverlay = document.getElementById('confirmOverlay');
+  if (confirmOverlay) confirmOverlay.addEventListener('click', e => { if (e.target === confirmOverlay) closeConfirm(); });
+});
