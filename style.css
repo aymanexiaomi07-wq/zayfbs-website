@@ -625,6 +625,7 @@ background-color: white;
   letter-spacing: 2px;
   cursor: pointer;
   transition: background 0.2s, transform 0.1s;
+  margin: 5px;
 }
 
 .btn-commander:hover { background: var(--olive-light); transform: translateY(-2px); }
